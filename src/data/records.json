@@ -1,0 +1,81 @@
+[{
+        "id": 1,
+        "name": "Alice",
+        "mobile": "9876543210",
+        "email": "alice@example.com",
+        "role": "ut_admin",
+        "isActive": true
+    },
+    {
+        "id": 2,
+        "name": "Bob",
+        "mobile": "9830983098",
+        "email": "bob@example.com",
+        "role": "ut_user",
+        "isActive": false
+    },
+    {
+        "id": 3,
+        "name": "Charlie",
+        "mobile": "9876543210",
+        "email": "charlie@example.com",
+        "role": "ut_manager",
+        "isActive": true
+    },
+    {
+        "id": 4,
+        "name": "Diana",
+        "mobile": "9876543210",
+        "email": "diana@example.com",
+        "role": "ut_viewer",
+        "isActive": true
+    },
+    {
+        "id": 5,
+        "name": "Eve",
+        "mobile": "9876543210",
+        "email": "eve@example.com",
+        "role": "ut_editor",
+        "isActive": false
+    },
+    {
+        "id": 6,
+        "name": "Frank",
+        "mobile": "9876543210",
+        "email": "frank@example.com",
+        "role": "ut_admin",
+        "isActive": true
+    },
+    {
+        "id": 7,
+        "name": "George",
+        "mobile": "9876543210",
+        "email": "george@example.com",
+        "role": "ut_user",
+        "isActive": false
+    },
+    {
+        "id": 8,
+        "name": "Harry",
+        "mobile": "9876543210",
+        "email": "harry@example.com",
+        "role": "ut_manager",
+        "isActive": true
+    },
+    {
+        "id": 9,
+        "name": "Ivy",
+        "mobile": "9876543210",
+        "email": "ivy@example.com",
+        "role": "ut_viewer",
+        "isActive": true
+    },
+    {
+        "id": 10,
+        "name": "Jack",
+        "mobile": "9876543210",
+        "email": "jack@example.com",
+        "role": "ut_editor",
+        "isActive": false
+    }
+]
