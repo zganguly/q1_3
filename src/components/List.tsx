@@ -6,48 +6,42 @@ type UserListProps = {
 };
 
 const UserList: React.FC<UserListProps> = ({ users }) => {
-  const [roleFilter, setRoleFilter] = useState<UserRole | "all">("all");
+  // By Default it will show all types of users with all roles
+  const [roleFilter, setRoleFilter] = useState("all");
+  // By Default user state is false. It will show all
   const [showActiveOnly, setShowActiveOnly] = useState(false);
 
-  const filteredUsers = users.filter(user => {
-    const roleMatch =
-      roleFilter === "all" || user.role === roleFilter;
+  let filteredUsers = users;
 
-    const activeMatch =
-      !showActiveOnly || user.isActive;
+  // Role Specific Filter
+  if (roleFilter !== "all") {
+    filteredUsers = filteredUsers.filter(user => user.role === roleFilter);
+  }
 
-    return roleMatch && activeMatch;
-  });
+  // Active Wise Filter
+  if (showActiveOnly) {
+    filteredUsers = filteredUsers.filter(user => user.isActive);
+  }
+
+  function formatRole(role: string) {
+    let name = role.replace("ut_", "");
+    return name.charAt(0).toUpperCase() + name.slice(1);
+    // eta use hocche to format the role, for showcase purpose
+  }
 
   return (
     <div>
       <h2>User List</h2>
 
-      {/* Filters */}
-      <div style={{ marginBottom: "1rem", display: "flex", alignItems: "center", gap: "2rem" }}>
-        <label style={{ fontWeight: 500, fontSize: "1.05em", color: "#333" }}>
+      {/* Filter part */}
+      <div style={{ marginBottom: "1rem" }}>
+        {/* Dropdown for user roles */}
+        <label>
           Role:&nbsp;
           <select
             value={roleFilter}
-            onChange={e =>
-              setRoleFilter(e.target.value as UserRole | "all")
-            }
-            style={{
-              padding: "0.45em 1.5em 0.45em 0.85em",
-              border: "1.5px solid #1976d2",
-              borderRadius: "6px",
-              background: "#f8fafd",
-              color: "#1a237e",
-              fontSize: "1em",
-              fontWeight: 500,
-              outline: "none",
-              boxShadow: "0 2px 6px 0 rgba(25, 118, 210, 0.08)",
-              appearance: "none",
-              backgroundImage:
-                "linear-gradient(45deg, #e3f2fd 0%, #fff 100%), url(\"data:image/svg+xml;charset=UTF-8,<svg width='18' height='18' xmlns='http://www.w3.org/2000/svg'><path d='M6 7l3 3 3-3' stroke='%231976d2' stroke-width='2' fill='none' fill-rule='evenodd'/></svg>\")",
-              backgroundRepeat: "no-repeat, no-repeat",
-              backgroundPosition: "right 0.6em center, right 1.2em center"
-            }}
+            // When we pick a role, change roleFilter
+            onChange={e => setRoleFilter(e.target.value)}
           >
             <option value="all">All</option>
             <option value="ut_admin">Admin</option>
@@ -58,111 +52,50 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
           </select>
         </label>
 
-        <label style={{ display: "flex", alignItems: "center", cursor: "pointer", fontWeight: 500, fontSize: "1.05em", color: "#333" }}>
-          <span
-            style={{
-              position: "relative",
-              display: "inline-block",
-              width: "24px",
-              height: "24px",
-              marginRight: "6px"
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={showActiveOnly}
-              onChange={e => setShowActiveOnly(e.target.checked)}
-              style={{
-                opacity: 0,
-                width: "24px",
-                height: "24px",
-                position: "absolute",
-                left: 0,
-                top: 0,
-                cursor: "pointer",
-                margin: 0,
-                zIndex: 2
-              }}
-            />
-            <span
-              style={{
-                display: "inline-block",
-                width: "24px",
-                height: "24px",
-                borderRadius: "6px",
-                border: showActiveOnly ? "2.4px solid #1976d2" : "2px solid #bdbdbd",
-                background: showActiveOnly ? "#e3f2fd" : "#f3f6f9",
-                boxShadow: showActiveOnly ? "0 2px 6px 0 rgba(25, 118, 210, 0.13)" : "none",
-                transition: "all 0.18s",
-              }}
-            >
-              {showActiveOnly && (
-                <svg width="16" height="16" viewBox="2 2 20 20" fill="none">
-                  <polyline
-                    points="5.5 13 10 17.5 18.5 8.5"
-                    stroke="#1976d2"
-                    strokeWidth="2.3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </span>
-          </span>
+        {/* Checkbox for Active users only */}
+        <label style={{ marginLeft: "2rem" }}>
+          <input
+            type="checkbox"
+            checked={showActiveOnly}
+            // When we click the checkbox, change showActiveOnly
+            onChange={e => setShowActiveOnly(e.target.checked)}
+          />
           Active only
         </label>
       </div>
 
-      {/* List */}
+      {/* The actual user list */}
       <ul style={{ listStyleType: "none", padding: 0 }}>
         {filteredUsers.map(user => (
           <li
             key={user.id}
             style={{
-              background: "#f8f9fa",
-              borderRadius: "8px",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-              marginBottom: "0.75rem",
-              padding: "1rem",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              marginBottom: "10px",
+              padding: "10px",
               display: "flex",
               alignItems: "center",
-              gap: "1.5rem",
+              gap: "20px"
             }}
           >
+            {/* Show user name and email */}
             <div style={{ flex: 1 }}>
-              <span style={{ fontWeight: 600, fontSize: "1.1em", color: "#1a237e" }}>
-                {user.name}
-              </span>
-              <span style={{ color: "#555", marginLeft: 8 }}>({user.email})</span>
+              <strong>{user.name}</strong> ({user.email})
             </div>
-            <div style={{
-              background: "#e3f2fd",
-              color: "#1976d2",
-              borderRadius: "4px",
-              padding: "2px 10px",
-              fontSize: "0.95em",
-              fontWeight: 500,
-              minWidth: 80,
-              textAlign: "center"
-            }}>
-              {user.role.replace('ut_', '').charAt(0).toUpperCase() + user.role.replace('ut_', '').slice(1)}
+            {/* Show role, formatted nicely */}
+            <div>
+              {formatRole(user.role)}
             </div>
-            <div style={{
-              color: user.isActive ? "#388e3c" : "#b71c1c",
-              background: user.isActive ? "#e8f5e9" : "#ffebee",
-              borderRadius: "4px",
-              padding: "2px 12px",
-              fontWeight: 500,
-              fontSize: "0.95em",
-              minWidth: 110,
-              textAlign: "center"
-            }}>
+            {/* Show if active */}
+            <div>
               {user.isActive ? "Active" : "Inactive"}
             </div>
           </li>
         ))}
       </ul>
 
+      {/* If no user found after filtering, show a message */}
       {filteredUsers.length === 0 && (
         <p>No users found.</p>
       )}
