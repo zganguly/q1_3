@@ -5,7 +5,8 @@ type UserListProps = {
   users: User[];
 };
 
-const UserList: React.FC<UserListProps> = ({ users }) => {
+function UserList(props: UserListProps) {
+  const { users } = props;
   // By Default it will show all types of users with all roles
   const [roleFilter, setRoleFilter] = useState("all");
   // By Default user state is false. It will show all
@@ -101,6 +102,6 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
       )}
     </div>
   );
-};
+}
 
 export default UserList;
